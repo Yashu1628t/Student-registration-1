@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Student Registration System - A comprehensive platform for managing student records with advanced features" />
+  <meta name="keywords" content="student registration, management system, education, records" />
+  <meta name="author" content="Student Management System" />
+  <title>Student Registration System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section with catchy title and description -->
+    <header class="header">
+      <h1><i class="fas fa-graduation-cap"></i> Student Registration System</h1>
+      <p>Comprehensive student registration and management platform with advanced features including data validation, search functionality, and export capabilities. Manage student records efficiently with our professional-grade system.</p>
+    </header>
+
+    <div class="main-content">
+      <!-- Registration Form Section - Task 3: Form and Input Fields -->
+      <section class="form-section">
+        <div class="form-container">
+          <h2><i class="fas fa-user-plus"></i> Student Registration</h2>
+          <form id="studentForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Student Name *</label>
+                <input type="text" id="name" required placeholder="Enter student name (characters only)" />
+                <span class="error-message" id="nameError"></span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email ID *</label>
+                <input type="email" id="email" required placeholder="Enter valid email address" />
+                <span class="error-message" id="emailError"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contact">Contact Number *</label>
+                <input type="tel" id="contact" required placeholder="Enter contact number (minimum 10 digits)" />
+                <span class="error-message" id="contactError"></span>
+              </div>
+              <div class="form-group">
+                <label for="studentId">Student ID *</label>
+                <input type="text" id="studentId" required placeholder="Enter student ID (numbers only)" />
+                <span class="error-message" id="studentIdError"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="course">Course/Program</label>
+                <select id="course">
+                  <option value="">Select Course</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Business">Business</option>
+                  <option value="Arts">Arts</option>
+                  <option value="Medicine">Medicine</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="year">Year Level</label>
+                <select id="year">
+                  <option value="">Select Year</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Register Student
+              </button>
+              <button type="button" class="btn btn-secondary" id="clearForm">
+                <i class="fas fa-eraser"></i> Clear Form
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Display Section - Task 4: Display Section -->
+      <section class="list-section">
+        <div class="list-container">
+          <div class="list-header">
+            <h2><i class="fas fa-users"></i> Registered Students</h2>
+            <div class="list-controls">
+              <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search students..." />
+                <i class="fas fa-search"></i>
+              </div>
+              <div class="filter-controls">
+                <select id="courseFilter">
+                  <option value="">All Courses</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Business">Business</option>
+                  <option value="Arts">Arts</option>
+                  <option value="Medicine">Medicine</option>
+                </select>
+                <select id="yearFilter">
+                  <option value="">All Years</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Container with Dynamic Scrollbar -->
+          <div class="table-container" id="tableContainer">
+            <table id="studentTable">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Email ID</th>
+                  <th>Contact No.</th>
+                  <th>Student ID</th>
+                  <th>Course</th>
+                  <th>Year</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <!-- Data will be added here dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <div class="stats">
+              <span id="totalStudents">Total Students: 0</span>
+            </div>
+            <div class="export-controls">
+              <button class="btn btn-export" id="exportCSV">
+                <i class="fas fa-download"></i> Export CSV
+              </button>
+              <button class="btn btn-export" id="exportJSON">
+                <i class="fas fa-file-code"></i> Export JSON
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Modal for Edit Functionality -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-edit"></i> Edit Student Record</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="editForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editName">Student Name *</label>
+              <input type="text" id="editName" required />
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Email ID *</label>
+              <input type="email" id="editEmail" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editContact">Contact Number *</label>
+              <input type="tel" id="editContact" required />
+            </div>
+            <div class="form-group">
+              <label for="editStudentId">Student ID *</label>
+              <input type="text" id="editStudentId" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editCourse">Course/Program</label>
+              <select id="editCourse">
+                <option value="">Select Course</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Business">Business</option>
+                <option value="Arts">Arts</option>
+                <option value="Medicine">Medicine</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editYear">Year Level</label>
+              <select id="editYear">
+                <option value="">Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Update Student</button>
+            <button type="button" class="btn btn-secondary" id="cancelEdit">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages Container -->
+    <div id="messageContainer" class="message-container"></div>
+  </div>
+
+  <!-- JavaScript file for all functionality -->
+  <script src="script.js"></script>
+</body>
+</html>
